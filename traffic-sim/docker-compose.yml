@@ -1,0 +1,58 @@
+services:
+  controller:
+    build:
+      context: ./controller
+    ports:
+      - "${CONTROLLER_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - sim-net
+
+  victim:
+    build:
+      context: ./worker
+    ports:
+      - "8001:8001"
+    environment:
+      - CONTROLLER_URL=http://controller:8000
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--backlog", "10"]
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import socket; socket.create_connection(('localhost', 8001), 2).close()\""]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 64M
+    depends_on:
+      controller:
+        condition: service_healthy
+    networks:
+      sim-net:
+        ipv4_address: 172.19.0.100
+
+  worker:
+    build:
+      context: ./worker
+    environment:
+      - CONTROLLER_URL=http://controller:8000
+    depends_on:
+      controller:
+        condition: service_healthy
+    networks:
+      - sim-net
+
+networks:
+  sim-net:
+    driver: bridge
+    name: sim-net
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
