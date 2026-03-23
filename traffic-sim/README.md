@@ -44,7 +44,7 @@ docker compose up -d --scale worker=20
 
 ### Get bridge interface
 ```bash
-ip link show | grep $(docker network inspect sim-net --format '{{slice.ID 0 12}}') | grep ": br" | awk -F ':' '{print $2}'
+ip link show | grep $(docker network inspect sim-net --format '{{slice .ID 0 12}}') | grep ": br" | awk -F ':' '{print $2}'
 ```
 
 ### Start the callback server

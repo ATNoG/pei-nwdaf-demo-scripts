@@ -161,7 +161,7 @@ async def dashboard():
 <body>
 <header>
   <div class="dot"></div>
-  <h1>NWDAF — Autonomous Mitigation Monitor</h1>
+  <h1>Consumer example</h1>
   <span class="subtitle" id="clock"></span>
 </header>
 <div class="status-bar">
@@ -207,7 +207,6 @@ function connect() {
       `<span class="action-tag applied">✓ ${a}</span>`
     ).join('');
     addEntry('decision', 'Anomaly Decision', `
-      <div class="cell-id">Cell ${d.cell_id}</div>
       <div class="reasoning">${d.reasoning || ''}</div>
       <div class="actions">${actions}${applied ? '<span style="color:#8b949e;font-size:11px;margin:0 6px">→ applied:</span>' + applied : ''}</div>
     `);
