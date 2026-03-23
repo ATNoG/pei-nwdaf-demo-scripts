@@ -56,6 +56,29 @@ sudo BRIDGE_INTERFACE=<bridge_iface> \
 
 The dashboard is available at `http://localhost:9999`.
 
+### Show container ips
+
+```bash
+curl http://localhost:8000/status
+```
+
+### Start attack
+**Using controller endpoint**
+```bash
+curl -X POST http://localhost:8000/ddos/<target_ip>
+```
+**Using Script**
+```bash 
+./ddos.sh <target_ip>
+```
+
+### Stopping attack
+
+```bash
+curl -X POST http://localhost:8000/normal
+```
+
+
 ## Controller API
 
 | Endpoint | Description |
