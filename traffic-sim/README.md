@@ -2,6 +2,8 @@
 
 Docker-based infrastructure for simulating a Slowloris DDoS attack and demonstrating autonomous NWDAF mitigation.
 
+![Autonomous mitigation demo](media/decision.gif)
+
 ## Components
 
 | Component | Description |
